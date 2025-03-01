@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { DraftExpense } from '../types'
@@ -16,8 +16,19 @@ const initialState = {
 export const ExpenseForm = () => {
   const [expense, setExpense] = useState<DraftExpense>(initialState)
   const [error, setError] = useState('')
+  const [previousAmount, setPreviousAmount] = useState(0)
+  const { state, dispatch, remainingBudget } = useBudget()
 
-  const { dispatch } = useBudget()
+  useEffect(() => {
+    const editingExpense = state.editingId
+      ? state.expenses.find((expense) => expense.id === state.editingId)
+      : null
+
+    if (editingExpense) {
+      setExpense(editingExpense)
+      setPreviousAmount(editingExpense.amount)
+    }
+  }, [state.editingId, state.expenses])
 
   const handleChangeDate = (date: Date | null) => {
     if (!date) return
@@ -46,9 +57,23 @@ export const ExpenseForm = () => {
       return
     }
 
-    dispatch({ type: 'ADD_EXPENSE', payload: { expense } })
+    if (remainingBudget < expense.amount - previousAmount) {
+      setError('Superas el presupuesto disponible')
+      return
+    }
+
+    if (state.editingId) {
+      dispatch({
+        type: 'UPDATE_EXPENSE',
+        payload: { expense: { id: state.editingId, ...expense } },
+      })
+    } else {
+      dispatch({ type: 'ADD_EXPENSE', payload: { expense } })
+    }
+
     setExpense(initialState)
     setError('')
+    setPreviousAmount(0)
   }
 
   return (
@@ -56,7 +81,7 @@ export const ExpenseForm = () => {
       className='space-y-4'
       onSubmit={handleSubmit}>
       <legend className='uppercase text-center text-2xl font-extrabold border-b-4 border-blue-500'>
-        Nuevo gasto
+        {state.editingId ? 'Editar Gasto' : 'Nuevo Gasto'}
       </legend>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
@@ -135,7 +160,7 @@ export const ExpenseForm = () => {
 
       <input
         type='submit'
-        value={'Registrar Gasto'}
+        value={state.editingId ? 'Guardar Cambios' : 'Registrar Gasto'}
         className='bg-blue-600 cursor-pointer w-full p-3 text-white uppercase font-bold rounded-lg hover:bg-blue-700 transition duration-200'
       />
     </form>
