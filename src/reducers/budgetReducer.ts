@@ -1,15 +1,10 @@
 import { DraftExpense, Expense } from '../types'
 
-export enum BudgetActionTypes {
-  ADD_BUDGET = 'ADD_BUDGET',
-  TOGGLE_MODAL = 'TOGGLE_MODAL',
-  ADD_EXPENSE = 'ADD_EXPENSE',
-}
-
 export type BudgetActions =
-  | { type: BudgetActionTypes.ADD_BUDGET; payload: { budget: number } }
-  | { type: BudgetActionTypes.TOGGLE_MODAL }
-  | { type: BudgetActionTypes.ADD_EXPENSE; payload: { expense: DraftExpense } }
+  | { type: 'ADD_BUDGET'; payload: { budget: number } }
+  | { type: 'TOGGLE_MODAL' }
+  | { type: 'ADD_EXPENSE'; payload: { expense: DraftExpense } }
+  | { type: 'REMOVE_EXPENSE'; payload: { id: Expense['id'] } }
 
 export type BudgetState = {
   budget: number
@@ -35,27 +30,38 @@ const addExpense = (
   return [...expenses, expense]
 }
 
+const removeExpense = (expenses: Expense[], id: Expense['id']): Expense[] => {
+  return expenses.filter(expense => expense.id !== id)
+}
+
 export const budgetReducer = (
   state: BudgetState = initialState,
   action: BudgetActions
 ) => {
   switch (action.type) {
-    case BudgetActionTypes.ADD_BUDGET:
+    case 'ADD_BUDGET':
       return {
         ...state,
         budget: action.payload.budget,
       }
 
-    case BudgetActionTypes.TOGGLE_MODAL:
+    case 'TOGGLE_MODAL':
       return {
         ...state,
         modal: !state.modal,
       }
 
-    case BudgetActionTypes.ADD_EXPENSE:
+    case 'ADD_EXPENSE':
       return {
         ...state,
         expenses: addExpense(state.expenses, action.payload.expense),
+        modal: false
+      }
+
+    case 'REMOVE_EXPENSE':
+      return {
+        ...state,
+        expenses: removeExpense(state.expenses, action.payload.id),
       }
 
     default:

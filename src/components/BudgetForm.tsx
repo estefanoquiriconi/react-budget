@@ -1,6 +1,5 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { useBudget } from '../hooks/useBudget'
-import { BudgetActionTypes } from '../reducers/budgetReducer'
 
 export const BudgetForm = () => {
   const [budget, setBudget] = useState(0)
@@ -13,19 +12,17 @@ export const BudgetForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    dispatch({ type: BudgetActionTypes.ADD_BUDGET, payload: { budget } })
+    dispatch({ type: 'ADD_BUDGET', payload: { budget } })
   }
 
   return (
     <form
       className='space-y-5'
-      onSubmit={handleSubmit}
-    >
+      onSubmit={handleSubmit}>
       <div className='flex flex-col space-y-5'>
         <label
           htmlFor='budget'
-          className='text-4xl text-blue-600 font-bold text-center'
-        >
+          className='text-4xl text-blue-600 font-bold text-center'>
           Definir Presupuesto
         </label>
         <input

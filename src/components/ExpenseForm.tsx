@@ -5,16 +5,16 @@ import { DraftExpense } from '../types'
 import { categories } from '../data/categories'
 import { ErrorMessage } from './ErrorMessage'
 import { useBudget } from '../hooks/useBudget'
-import { BudgetActionTypes } from '../reducers/budgetReducer'
+
+const initialState = {
+  expenseName: '',
+  amount: 0,
+  categoryId: '',
+  date: new Date(),
+}
 
 export const ExpenseForm = () => {
-  const [expense, setExpense] = useState<DraftExpense>({
-    expenseName: '',
-    amount: 0,
-    categoryId: '',
-    date: new Date(),
-  })
-
+  const [expense, setExpense] = useState<DraftExpense>(initialState)
   const [error, setError] = useState('')
 
   const { dispatch } = useBudget()
@@ -28,7 +28,7 @@ export const ExpenseForm = () => {
   }
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target
     const isAmountField = ['amount'].includes(name)
@@ -41,21 +41,20 @@ export const ExpenseForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    //Validar
     if (Object.values(expense).includes('')) {
       setError('Todos los campos son obligatorios')
       return
     }
 
-    dispatch({ type: BudgetActionTypes.ADD_EXPENSE, payload: { expense } })
+    dispatch({ type: 'ADD_EXPENSE', payload: { expense } })
+    setExpense(initialState)
     setError('')
   }
 
   return (
     <form
       className='space-y-4'
-      onSubmit={handleSubmit}
-    >
+      onSubmit={handleSubmit}>
       <legend className='uppercase text-center text-2xl font-extrabold border-b-4 border-blue-500'>
         Nuevo gasto
       </legend>
@@ -65,8 +64,7 @@ export const ExpenseForm = () => {
       <div className='flex flex-col'>
         <label
           htmlFor='expenseName'
-          className='text-lg font-semibold'
-        >
+          className='text-lg font-semibold'>
           Nombre Gasto:
         </label>
         <input
@@ -83,8 +81,7 @@ export const ExpenseForm = () => {
       <div className='flex flex-col'>
         <label
           htmlFor='amount'
-          className='text-lg font-semibold'
-        >
+          className='text-lg font-semibold'>
           Cantidad:
         </label>
         <input
@@ -101,8 +98,7 @@ export const ExpenseForm = () => {
       <div className='flex flex-col'>
         <label
           htmlFor='categoryId'
-          className='text-lg font-semibold'
-        >
+          className='text-lg font-semibold'>
           Categoría:
         </label>
         <select
@@ -110,14 +106,12 @@ export const ExpenseForm = () => {
           name='categoryId'
           className='bg-slate-100 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
           value={expense.categoryId}
-          onChange={handleChange}
-        >
+          onChange={handleChange}>
           <option value=''>Seleccione</option>
           {categories.map((category) => (
             <option
               key={category.id}
-              value={category.id}
-            >
+              value={category.id}>
               {category.name}
             </option>
           ))}
@@ -127,8 +121,7 @@ export const ExpenseForm = () => {
       <div className='flex flex-col'>
         <label
           htmlFor='date'
-          className='text-lg font-semibold'
-        >
+          className='text-lg font-semibold'>
           Fecha Gasto:
         </label>
         <DatePicker

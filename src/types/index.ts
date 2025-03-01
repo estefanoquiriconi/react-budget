@@ -2,7 +2,7 @@ export type Expense = {
   id: string
   expenseName: string
   amount: number
-  categoryId: string
+  categoryId: Category['id']
   date: Date
 }
 

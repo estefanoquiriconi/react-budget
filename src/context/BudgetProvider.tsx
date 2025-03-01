@@ -14,8 +14,7 @@ export const BudgetProvider = ({ children }: BudgetProviderProps) => {
       value={{
         state,
         dispatch,
-      }}
-    >
+      }}>
       {children}
     </BudgetContext.Provider>
   )
