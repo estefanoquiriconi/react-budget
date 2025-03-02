@@ -12,8 +12,9 @@ export const ExpenseModal = () => {
       <div className='fixed right-5 bottom-5 flex items-center justify-center'>
         <button
           type='button'
-          onClick={() => dispatch({ type: 'TOGGLE_MODAL' })}>
-          <PlusCircleIcon className='w-16 h-16 text-blue-600 rounded-full' />
+          onClick={() => dispatch({ type: 'TOGGLE_MODAL' })}
+          className='bg-gradient-to-r from-blue-600 to-blue-700 hover:opacity-90 transition-all duration-300 p-3 rounded-full shadow-lg hover:shadow-xl'>
+          <PlusCircleIcon className='w-12 h-12 text-white' />
         </button>
       </div>
 

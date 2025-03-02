@@ -17,18 +17,18 @@ export const BudgetForm = () => {
 
   return (
     <form
-      className='space-y-5'
+      className='space-y-8 max-w-md mx-auto'
       onSubmit={handleSubmit}>
-      <div className='flex flex-col space-y-5'>
+      <div className='flex flex-col space-y-4'>
         <label
           htmlFor='budget'
-          className='text-4xl text-blue-600 font-bold text-center'>
+          className='text-3xl text-blue-600 font-bold text-center'>
           Definir Presupuesto
         </label>
         <input
           id='budget'
           type='number'
-          className='w-full bg-white border border-gray-200 p-2'
+          className='w-full bg-slate-50 border border-slate-200 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200'
           placeholder='Ej. 50000'
           name='budget'
           value={budget > 0 ? budget : ''}
@@ -38,7 +38,7 @@ export const BudgetForm = () => {
       <input
         type='submit'
         value='Definir Presupuesto'
-        className='bg-blue-600 hover:bg-blue-700 cursor-pointer uppercase w-full p-2 text-white font-black disabled:opacity-40 disabled:cursor-not-allowed'
+        className='bg-gradient-to-r from-blue-600 to-blue-700 hover:opacity-90 cursor-pointer uppercase w-full p-3 text-white font-bold rounded-lg transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed'
         disabled={isNaN(budget) || budget <= 0}
       />
     </form>

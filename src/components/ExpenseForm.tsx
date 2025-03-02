@@ -78,35 +78,35 @@ export const ExpenseForm = () => {
 
   return (
     <form
-      className='space-y-4'
+      className='space-y-6'
       onSubmit={handleSubmit}>
-      <legend className='uppercase text-center text-2xl font-extrabold border-b-4 border-blue-500'>
+      <legend className='text-center text-2xl font-bold text-blue-600 border-b-2 border-blue-200 pb-2 mb-6 uppercase'>
         {state.editingId ? 'Editar Gasto' : 'Nuevo Gasto'}
       </legend>
 
       {error && <ErrorMessage>{error}</ErrorMessage>}
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col space-y-2'>
         <label
           htmlFor='expenseName'
-          className='text-lg font-semibold'>
+          className='text-slate-700 font-medium'>
           Nombre Gasto:
         </label>
         <input
           type='text'
           id='expenseName'
           name='expenseName'
-          placeholder='Añade el nombre del gasto.'
-          className='bg-slate-100 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+          placeholder='Añade el nombre del gasto'
+          className='bg-slate-50 p-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200'
           value={expense.expenseName}
           onChange={handleChange}
         />
       </div>
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col space-y-2'>
         <label
           htmlFor='amount'
-          className='text-lg font-semibold'>
+          className='text-slate-700 font-medium'>
           Cantidad:
         </label>
         <input
@@ -114,22 +114,22 @@ export const ExpenseForm = () => {
           id='amount'
           name='amount'
           placeholder='Añade la cantidad del gasto. Ejemplo: 300'
-          className='bg-slate-100 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+          className='bg-slate-50 p-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200'
           value={expense.amount > 0 ? expense.amount : ''}
           onChange={handleChange}
         />
       </div>
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col space-y-2'>
         <label
           htmlFor='categoryId'
-          className='text-lg font-semibold'>
+          className='text-slate-700 font-medium'>
           Categoría:
         </label>
         <select
           id='categoryId'
           name='categoryId'
-          className='bg-slate-100 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+          className='bg-slate-50 p-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200'
           value={expense.categoryId}
           onChange={handleChange}>
           <option value=''>Seleccione</option>
@@ -143,16 +143,16 @@ export const ExpenseForm = () => {
         </select>
       </div>
 
-      <div className='flex flex-col'>
+      <div className='flex flex-col space-y-2'>
         <label
           htmlFor='date'
-          className='text-lg font-semibold'>
+          className='text-slate-700 font-medium'>
           Fecha Gasto:
         </label>
         <DatePicker
           id='date'
           name='date'
-          className='w-full bg-slate-100 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+          className='w-full bg-slate-50 p-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200'
           selected={expense.date}
           onChange={handleChangeDate}
         />
@@ -161,7 +161,7 @@ export const ExpenseForm = () => {
       <input
         type='submit'
         value={state.editingId ? 'Guardar Cambios' : 'Registrar Gasto'}
-        className='bg-blue-600 cursor-pointer w-full p-3 text-white uppercase font-bold rounded-lg hover:bg-blue-700 transition duration-200'
+        className='bg-gradient-to-r from-blue-600 to-blue-700 cursor-pointer w-full p-3 text-white font-bold rounded-lg hover:opacity-90 transition-all duration-300 uppercase'
       />
     </form>
   )
